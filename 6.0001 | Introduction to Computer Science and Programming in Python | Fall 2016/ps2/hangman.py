@@ -122,8 +122,37 @@ def hangman(secret_word):
     
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    print('Welcome to the game Hangman!\nI am thinking of a word that is', len(secret_word),'letters long.')
+    guesses_remaining = 6
+    letters_guessed = []
+    vowels = "aeiou"
+    while guesses_remaining > 0 and not is_word_guessed(secret_word, letters_guessed):
+      print('-------------')
+      print('You have', guesses_remaining, 'guesses left.')
+      print('Available letters:', get_available_letters(letters_guessed))
+      guess = input('Please guess a letter: ').lower()
+      warnings_remaining = 3
+      while warnings_remaining > 0 and guess not in string.ascii_lowercase:
+          warnings_remaining = warnings_remaining - 1
+          guess = input('Oops! That is not a valid letter. You have ' + str(warnings_remaining) + ' warnings left: ')
+      if guess in secret_word:
+          letters_guessed.append(guess)
+          print('Good guess:', get_guessed_word(secret_word, letters_guessed))
+      else:
+          if guess in vowels:
+            guesses_remaining = guesses_remaining - 2
+            print('Oops! That letter is not in my word:', get_guessed_word(secret_word, letters_guessed))
+          else:
+            guesses_remaining = guesses_remaining - 1
+            print('Oops! That letter is not in my word:', get_guessed_word(secret_word, letters_guessed))
+    if guesses_remaining == 0:
+      print('Sorry, you ran out of guesses. The word was', secret_word, '.')
+    else:
+      total_score = guesses_remaining * unique_letters(secret_word)
+      print('Congratulations, you won!')
+      print('Your total score for this game is:', total_score)
+        
+          
 
 
 
@@ -135,6 +164,13 @@ def hangman(secret_word):
 
 # -----------------------------------
 
+
+def unique_letters(secret_word):
+    ans = 0
+    for letter in secret_word:
+        if secret_word.count(letter) == 1:
+            ans = ans + 1
+    return ans
 
 
 def match_with_gaps(my_word, other_word):
