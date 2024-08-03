@@ -16,7 +16,7 @@ CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
 
 SCRABBLE_LETTER_VALUES = {
-    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
+    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10, '*': 0
 }
 
 # -----------------------------------
@@ -150,6 +150,14 @@ def deal_hand(n):
         x = random.choice(CONSONANTS)
         hand[x] = hand.get(x, 0) + 1
     
+    for key in hand:
+        if key in VOWELS:
+            hand[key] = hand[key] - 1
+            if hand[key] == 0:
+                del hand[key]
+            hand['*'] = 1
+            break
+    
     return hand
 
 #
@@ -201,16 +209,27 @@ def is_valid_word(word, hand, word_list):
     """
 
     word_lower = word.lower()
-    if word_lower not in word_list:
-        return False
+    if '*' in word_lower:
+        wild_card_index = word_lower.find('*')
+        temp_word = None
+        is_valid = False
+        for letter in VOWELS:
+            temp_word = word_lower[: wild_card_index] + letter + word_lower[wild_card_index + 1 :]
+            if temp_word in word_list:
+                is_valid = True
+                break
+        if not is_valid:
+            return False
     else:
-        for letter in word_lower:
-            if hand.get(letter, -1) == -1:
+        if word_lower not in word_list:
+            return False
+    for letter in word_lower:
+        if hand.get(letter, -1) == -1:
+            return False
+        else:
+            if word_lower.count(letter) > hand[letter]:
                 return False
-            else:
-                if word_lower.count(letter) > hand[letter]:
-                    return False
-        return True
+    return True
 
 #
 # Problem #5: Playing a hand
