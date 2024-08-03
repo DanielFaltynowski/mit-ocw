@@ -200,7 +200,17 @@ def is_valid_word(word, hand, word_list):
     returns: boolean
     """
 
-    pass  # TO DO... Remove this line when you implement this function
+    word_lower = word.lower()
+    if word_lower not in word_list:
+        return False
+    else:
+        for letter in word_lower:
+            if hand.get(letter, -1) == -1:
+                return False
+            else:
+                if word_lower.count(letter) > hand[letter]:
+                    return False
+        return True
 
 #
 # Problem #5: Playing a hand
