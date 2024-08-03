@@ -361,8 +361,18 @@ def substitute_hand(hand, letter):
     letter: string
     returns: dictionary (string -> int)
     """
-    
-    pass  # TO DO... Remove this line when you implement this function
+    if letter not in hand:
+        return hand
+    else:
+        x = random.choice(VOWELS + CONSONANTS)
+        while x in hand:
+            x = random.choice(VOWELS + CONSONANTS)
+        hand[x] = hand.get(x, 0) + 1
+        hand[letter] = hand[letter] - 1
+        if hand[letter] == 0:
+            del hand[letter]
+        return hand
+
        
     
 def play_game(word_list):
@@ -396,7 +406,38 @@ def play_game(word_list):
     word_list: list of lowercase strings
     """
     
-    print("play_game not implemented.") # TO DO... Remove this line when you implement this function
+    hands = int(input('Enter total number of hands: '))
+    score = 0
+    unused_substitution = True
+    unused_replay = True
+    while hands > 0:
+        random_hand = deal_hand(HAND_SIZE)
+        print('Current hand:', end=' ')
+        display_hand(random_hand)
+        if unused_substitution:
+            substitution = input('Would you like to substitute a letter? ')
+            while substitution not in ['yes', 'no']:
+                print('Invalid Input! Insert "yes" or "no"!')
+                substitution = input('Would you like to substitute a letter? ')
+            if substitution == 'yes':
+                unused_substitution = False
+                letter = input('Which letter would you like to replace: ')
+                random_hand = substitute_hand(random_hand, letter)
+        hand = random_hand.copy()
+        current_game = play_hand(hand, word_list)
+        if unused_replay:
+            replay = input('Would you like to replay the hand? ')
+            while replay not in ['yes', 'no']:
+                print('Invalid Input! Insert "yes" or "no"!')
+                substitution = input('Would you like to replay the hand? ')
+            if replay == 'yes':
+                unused_substitution = False
+                unused_replay = False
+                current_game = play_hand(hand, word_list)
+        score = score + current_game
+        print('----------')
+        hands = hands - 1
+    print('Total score over all hands: ' + str(score))
     
 
 
