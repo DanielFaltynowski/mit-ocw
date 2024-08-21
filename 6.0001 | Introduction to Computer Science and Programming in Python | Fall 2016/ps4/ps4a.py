@@ -1,4 +1,6 @@
-# Daniel Faltynowski
+"""
+  @author: Daniel Faltynowski
+"""
 
 def get_permutations(sequence):
     '''
