@@ -69,7 +69,8 @@ class SubMessage(object):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        self.__messsage_text = text
+        self.__valid_words = load_words(WORDLIST_FILENAME)
     
     def get_message_text(self):
         '''
@@ -77,7 +78,7 @@ class SubMessage(object):
         
         Returns: self.message_text
         '''
-        pass #delete this line and replace with your code here
+        return self.__messsage_text
 
     def get_valid_words(self):
         '''
@@ -86,7 +87,7 @@ class SubMessage(object):
         
         Returns: a COPY of self.valid_words
         '''
-        pass #delete this line and replace with your code here
+        return self.__valid_words
                 
     def build_transpose_dict(self, vowels_permutation):
         '''
@@ -108,7 +109,11 @@ class SubMessage(object):
                  another letter (string). 
         '''
         
-        pass #delete this line and replace with your code here
+        response = {}
+        response[vowels_permutation[-1]] = vowels_permutation[0]
+        for i in range(len(vowels_permutation) - 1):
+            response[vowels_permutation[i]] = vowels_permutation[i + 1]
+        return response
     
     def apply_transpose(self, transpose_dict):
         '''
@@ -118,7 +123,13 @@ class SubMessage(object):
         on the dictionary
         '''
         
-        pass #delete this line and replace with your code here
+        ans = ''
+        for letter in self.__messsage_text:
+            if letter not in transpose_dict:
+                ans = ans + letter
+            else:
+                ans = ans + transpose_dict[letter]
+        return ans
         
 class EncryptedSubMessage(SubMessage):
     def __init__(self, text):
@@ -131,7 +142,10 @@ class EncryptedSubMessage(SubMessage):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+
+        SubMessage.__init__(self, text)
+        
+
 
     def decrypt_message(self):
         '''
@@ -151,7 +165,34 @@ class EncryptedSubMessage(SubMessage):
         
         Hint: use your function from Part 4A
         '''
-        pass #delete this line and replace with your code here
+        
+        ans = []
+        index = None
+        best_score = 0
+        vowels_permutation = get_permutations(VOWELS_UPPER) + get_permutations(VOWELS_LOWER)
+
+        for i in range(len(vowels_permutation)):
+            actual_score = 0
+            transpose_dict = self.build_transpose_dict(vowels_permutation[i])
+            decrypted_message = self.apply_transpose(transpose_dict)
+            ans.append(decrypted_message)
+            decrypted_message = decrypted_message.split()
+            for word in decrypted_message:
+                if is_word(self.get_valid_words(), word):
+                    actual_score = actual_score + 1
+            if actual_score > best_score:
+                best_score = actual_score
+                index = i
+        
+        if index == None:
+            print('This is incorrect message!')
+        else:
+            return ans[index]
+
+            
+
+                
+
     
 
 if __name__ == '__main__':
@@ -167,3 +208,10 @@ if __name__ == '__main__':
     print("Decrypted message:", enc_message.decrypt_message())
      
     #TODO: WRITE YOUR TEST CASES HERE
+
+    cip = SubMessage('my husband works hard')
+    print(cip.build_transpose_dict(VOWELS_LOWER))
+    print(cip.apply_transpose(cip.build_transpose_dict(VOWELS_LOWER)))
+
+    dip = EncryptedSubMessage('my hasbend wurks herd')
+    print(dip.decrypt_message())
