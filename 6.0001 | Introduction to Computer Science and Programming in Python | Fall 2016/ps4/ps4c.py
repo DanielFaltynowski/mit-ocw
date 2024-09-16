@@ -207,7 +207,6 @@ if __name__ == '__main__':
     enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
     print("Decrypted message:", enc_message.decrypt_message())
      
-    #TODO: WRITE YOUR TEST CASES HERE
 
     cip = SubMessage('my husband works hard')
     print(cip.build_transpose_dict(VOWELS_LOWER))
