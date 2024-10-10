@@ -198,19 +198,37 @@ class EncryptedSubMessage(SubMessage):
 if __name__ == '__main__':
 
     # Example test case
-    message = SubMessage("Hello World!")
-    permutation = "eaiuo"
-    enc_dict = message.build_transpose_dict(permutation)
-    print("Original message:", message.get_message_text(), "Permutation:", permutation)
-    print("Expected encryption:", "Hallu Wurld!")
-    print("Actual encryption:", message.apply_transpose(enc_dict))
-    enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
-    print("Decrypted message:", enc_message.decrypt_message())
+    # message = SubMessage("Hello World!")
+    # permutation = "eaiuo"
+    # enc_dict = message.build_transpose_dict(permutation)
+    # print("Original message:", message.get_message_text(), "Permutation:", permutation)
+    # print("Expected encryption:", "Hallu Wurld!")
+    # print("Actual encryption:", message.apply_transpose(enc_dict))
+    # enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
+    # print("Decrypted message:", enc_message.decrypt_message())
      
 
-    cip = SubMessage('my husband works hard')
-    print(cip.build_transpose_dict(VOWELS_LOWER))
-    print(cip.apply_transpose(cip.build_transpose_dict(VOWELS_LOWER)))
+    # cip = SubMessage('my husband works hard')
+    # print(cip.build_transpose_dict(VOWELS_LOWER))
+    # print(cip.apply_transpose(cip.build_transpose_dict(VOWELS_LOWER)))
 
-    dip = EncryptedSubMessage('my hasbend wurks herd')
-    print(dip.decrypt_message())
+    # dip = EncryptedSubMessage('my hasbend wurks herd')
+    # print(dip.decrypt_message())
+
+    test1 = SubMessage("hello my friends")
+    test1_e = test1.apply_transpose(test1.build_transpose_dict(VOWELS_LOWER))
+    print(test1_e)
+    test1_d = EncryptedSubMessage(test1_e)
+    print(test1_d.decrypt_message())
+
+    test2 = SubMessage("working hard is a good thing when you are younger than your parents")
+    test2_e = test2.apply_transpose(test2.build_transpose_dict(VOWELS_LOWER))
+    print(test2_e)
+    test2_d = EncryptedSubMessage(test2_e)
+    print(test2_d.decrypt_message())
+
+    test3 = SubMessage("this is the part when i say i do not want it")
+    test3_e = test3.apply_transpose(test3.build_transpose_dict(VOWELS_LOWER))
+    print(test3_e)
+    test3_d = EncryptedSubMessage(test3_e)
+    print(test3_d.decrypt_message())
