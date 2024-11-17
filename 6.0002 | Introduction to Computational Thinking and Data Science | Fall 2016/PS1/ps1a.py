@@ -31,6 +31,16 @@ def load_cows(filename):
 
 
 # Problem 2
+def max_cow(cows):
+    cowName = ''
+    cowWeight = 0
+    for name, weight in cows.items():
+        if weight > cowWeight:
+            cowName = name
+            cowWeight = weight
+    return cowName
+
+
 def greedy_cow_transport(cows,limit=10):
     """
     Uses a greedy heuristic to determine an allocation of cows that attempts to
@@ -53,8 +63,24 @@ def greedy_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    herd = cows.copy()
+    trips = []
+    while herd != {}:
+        currentTrip = []
+        currentHerd = herd.copy()
+        currentLimit = limit
+        while currentLimit > 0 and currentHerd != {}:
+            currentCow = max_cow(currentHerd)
+            if currentLimit - currentHerd[currentCow] >= 0:
+                currentTrip.append(currentCow)
+                currentLimit = currentLimit - currentHerd[currentCow]
+                del herd[currentCow]
+            del currentHerd[currentCow]
+        trips.append(currentTrip)
+    return trips
+    
+
+
 
 # Problem 3
 def brute_force_cow_transport(cows,limit=10):
@@ -100,5 +126,6 @@ def compare_cow_transport_algorithms():
 
 
 if __name__ == '__main__':
-    print(load_cows('ps1_cow_data.txt'))
-    print(load_cows('ps1_cow_data_2.txt'))
+    cows1 = load_cows('ps1_cow_data.txt')
+    cows2 = load_cows('ps1_cow_data_2.txt')
+    print(greedy_cow_transport(cows1))
