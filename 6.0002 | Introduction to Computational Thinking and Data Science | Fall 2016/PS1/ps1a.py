@@ -83,6 +83,14 @@ def greedy_cow_transport(cows,limit=10):
 
 
 # Problem 3
+def all_positive_numbers(data):
+    response = True
+    for datum in data:
+        if datum < 0:
+            response = False
+            break
+    return response
+
 def brute_force_cow_transport(cows,limit=10):
     """
     Finds the allocation of cows that minimizes the number of spaceship trips
@@ -104,8 +112,30 @@ def brute_force_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    herd = cows.copy()
+    partitions = list(get_partitions(cows))
+    sumOfLimits = limit
+    bestTrips = partitions[0]
+    for partition in partitions:
+        currentLimits = []
+        for trip in partition:
+            currentLimit = limit
+            for cow in trip:
+                currentLimit = currentLimit - herd[cow]
+            currentLimits.append(currentLimit)
+        if all_positive_numbers(currentLimits):
+            if sum(currentLimits) < sumOfLimits:
+                bestTrips = partition
+    return bestTrips
+            
+
+        
+
+
+
+
+
+    
         
 # Problem 4
 def compare_cow_transport_algorithms():
@@ -126,6 +156,18 @@ def compare_cow_transport_algorithms():
 
 
 if __name__ == '__main__':
+    # Test 1
+    # cows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
     cows1 = load_cows('ps1_cow_data.txt')
     cows2 = load_cows('ps1_cow_data_2.txt')
     print(greedy_cow_transport(cows1))
+    print(greedy_cow_transport(cows2))
+
+    # Test 2
+    # cows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
+    cows1 = load_cows('ps1_cow_data.txt')
+    cows2 = load_cows('ps1_cow_data_2.txt')
+    print(brute_force_cow_transport(cows1))
+    print(brute_force_cow_transport(cows2))
+
+    
