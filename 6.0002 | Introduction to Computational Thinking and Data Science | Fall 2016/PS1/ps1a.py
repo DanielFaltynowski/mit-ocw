@@ -156,18 +156,40 @@ def compare_cow_transport_algorithms():
 
 
 if __name__ == '__main__':
-    # Test 1
+    # # Test 1
     # cows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
-    cows1 = load_cows('ps1_cow_data.txt')
-    cows2 = load_cows('ps1_cow_data_2.txt')
-    print(greedy_cow_transport(cows1))
-    print(greedy_cow_transport(cows2))
+    # cows1 = load_cows('ps1_cow_data.txt')
+    # cows2 = load_cows('ps1_cow_data_2.txt')
+    # print(greedy_cow_transport(cows1))
+    # print(greedy_cow_transport(cows2))
 
-    # Test 2
+    # # Test 2
     # cows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
+    # cows1 = load_cows('ps1_cow_data.txt')
+    # cows2 = load_cows('ps1_cow_data_2.txt')
+    # print(brute_force_cow_transport(cows1))
+    # print(brute_force_cow_transport(cows2))
     cows1 = load_cows('ps1_cow_data.txt')
     cows2 = load_cows('ps1_cow_data_2.txt')
-    print(brute_force_cow_transport(cows1))
-    print(brute_force_cow_transport(cows2))
+
+    start = time.time()
+    print('Result for Greedy Algorithm for Dataset 1:\n', greedy_cow_transport(cows1))
+    end = time.time()
+    print('Time for Greedy Algorithm for Dataset 1:\n', round(end - start, 5), '\n')
+
+    start = time.time()
+    print('Result for Brute Force Algorith for Dataset 1:\n', brute_force_cow_transport(cows1))
+    end = time.time()
+    print('Time for Brute Force Algorithm for Dataset 1:\n', round(end - start, 5), '\n')
+
+    start = time.time()
+    print('Result for Greedy Algorith for Dataset 2:\n', greedy_cow_transport(cows2))
+    end = time.time()
+    print('Time for Greedy Algorithm for Dataset 2:\n', round(end - start, 5), '\n')
+
+    start = time.time()
+    print('Result for Greedy Algorith for Dataset 2:\n', brute_force_cow_transport(cows2))
+    end = time.time()
+    print('Time for Brute Force Algorithm for Dataset 2:\n', round(end - start, 5))
 
     
