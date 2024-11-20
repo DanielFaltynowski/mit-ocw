@@ -29,7 +29,7 @@ Time for Greedy Algorithm for Dataset 2:
  3e-05 
  ```
 
-Result for Greedy Algorith for Dataset 2:
+Result for Brite Force Algorith for Dataset 2:
 ```
  [['Dottie'], ['Miss Moo-dy', 'Betsy'], ['Horns'], ['Rose', 'Milkshake', 'Miss Bella'], ['Lotus']]
  ```
